@@ -17,3 +17,4 @@ do
     echo "User $username added to the dev group"
 done
 
+not approved
