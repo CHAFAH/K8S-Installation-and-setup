@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Array of usernames
+usernames=("user1" "user2" "user3")
+
+# Create users
+for username in "${usernames[@]}"
+do
+    sudo useradd -m "$username"  # -m flag creates the home directory
+    echo "User $username created"
+done
+
+# Assign users to the "dev" group
+for username in "${usernames[@]}"
+do
+    sudo usermod -aG dev "$username"
+    echo "User $username added to the dev group"
+done
+
