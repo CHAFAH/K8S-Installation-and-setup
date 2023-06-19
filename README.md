@@ -80,18 +80,18 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 To verify, if kubectl is working or not, run the following command.
 kubectl get pods -A
 
-
 #deploy the network plugin - weave network
+```sh
 kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
 kubectl get pods -A
 kubectl get node 
-
+```
 #Copy kubeadm join token from the master and execute in Worker Nodes to join to cluster
-
+```sh
 kubeadm join 172.31.10.12:6443 --token cdm6fo.dhbrxyleqe5suy6e \
         --discovery-token-ca-cert-hash sha256:1fc51686afd16c46102c018acb71ef9537c1226e331840e7d401630b96298e7d
 
-
+```
 
 kubeadm join 172.31.27.203:6443 --token b6aelh.35v91d8r8r40u1se --discovery-token-ca-cert-hash sha256:03958713c0774924c4da2294e1dc8309cf98cbfd7b528f6250b530bc6cb12145
 
@@ -141,22 +141,21 @@ PODS:
 =====
 
 pod is the smallest building block in which app are deployed in k8s.
-pods can be deploy in a NameSpace
-pods can contain 2 or more containers called a multipod Containers (logmnt or utility) or single pod container 
-All containers in a pod share thesame network, storage. Pods have unique IP Address in a cluster 
-containers in thesame pod share thesame network, filesystem, storage and can communicate using 
+pods can be deployed in a NameSpace pod can contain 2 or more containers called a multi pod Containers (logmnt or utility) or single pod container 
+All containers in a pod share the same network, and storage. Pods have unique IP Addresses in a cluster 
+containers in the same pod share the same network, filesystem, and storage and can communicate using 
 localhost:<containerport>
 
-How to deploy Application in Pods:
+How to deploy Applications in Pods:
 ==================================
 
 kubectl run <podName> --image=<ImageName> --port=<containerport> -n <NameSpace>
 
 kubectl run hello --image=mylandmarktech/hello --port=80 -n dev
-Images are pulled from DockerHub or other registeries like Nexus
+Images are pulled from DockerHub or other registries like Nexus
 
-For Best practice, app are deploted using manifsestfiles.
-App are deployed in isolated envnt called NameSpace using Manifset files 
+For Best practice, app are deployed using manifest files.
+App is deployed in an isolated envnt called NameSpace using Manifest files 
 
 pod.yml
 ---------
@@ -194,6 +193,7 @@ Applications are discovered in pods using Service
 
 service.yml
 ============
+```sh
 kind: Service
 apiVersion: v1 
 metadata:
@@ -206,7 +206,7 @@ spec:
     targetPort: 8080
   selector:
     app: myapp 
-
+```
 ClusterIP service is the default service type. It is communication between app in the cluster.
 
 name is the service name
@@ -225,7 +225,7 @@ myappsvc   10.44.0.1:8080   61s
 
 service is port is 80 and it is routing traffic to myapp on endpoint 8080
 
-
+```sh
 kubectl get all:  app pods and services created
 kubectl delete pod --all
 kubectl get pods
@@ -235,7 +235,7 @@ kubectl get pods --show-labels
 kubectl describe pod <podName>
 kubectl describe svc 
 kubectl delete svc 
-
+```
 curl pod IP:podPortnumber
        podIP    ContainerPort
 curl 10.44.0.1:8080
@@ -258,7 +258,7 @@ IF pods are crwated with controller managers, the pod lifecycle can be managed
 
 sudo vi /etc/kubernetes/manifsest/file.yml :  create a managed pod for replication
 the pod is controlled by the kubelet service
-
+```sh
 kind: Pod 
 apiVersion: v1 
 metadata:
@@ -272,7 +272,7 @@ spec:
     image: mylandmarktech/maven-web-app
     ports:
     - containerPort: 8080
-
+```
 if components of the static pods are deleted, it will be recreated by the kubelet service
 
 
