@@ -1,20 +1,21 @@
 # K8S-Installation-and-setup
 
-
+```sh
 apt-get update -y
 apt-get install ca-certificates curl gnupg lsb-release -y
-
+```
 #Note: We are not installing Docker Here.Since containerd.io package is part of docker apt repositories hence we added docker repository & it's key to download and install containerd.
 # Add Docker’s official GPG key:
+```sh
 sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-
+```
 #Use follwing command to set up the repository:
-
+```sh
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
+```
 # Install containerd
 
 ```sh
@@ -29,9 +30,9 @@ apt-get install containerd.io -y
 containerd config default > /etc/containerd/config.toml
 ```
 # Run following command to update configure cgroup as systemd for contianerd.
-
+```sh
 sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
-
+```
 # Restart and enable containerd service
 ```sh
 systemctl restart containerd
@@ -45,41 +46,45 @@ apt-get update
 apt-get install -y apt-transport-https ca-certificates curl
 ```
 # Download the Google Cloud public signing key:
-
+```sh
 curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-
+```
 # Add the Kubernetes apt repository:
-
+```sh
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-
+```
 # Update apt package index, install kubelet, kubeadm and kubectl, and pin their version:
-
+```sh
 apt-get update
 apt-get install -y kubelet kubeadm kubectl
-
+```
 # apt-mark hold will prevent the package from being automatically upgraded or removed.
-
+```sh
 apt-mark hold kubelet kubeadm kubectl
-
+```
 # Enable and start kubelet service
-
+```sh
 systemctl daemon-reload
 systemctl start kubelet
 systemctl enable kubelet.service
+```
 
-
-exit as root user & execute the below commands as normal ubuntu user
+# exit as root user & execute the below commands as normal ubuntu user
+```sh
 sudo su - ubuntu
-Initialised the control plane.
+```
+# Initialised the control plane.
 # Initialize Kubernates master by executing below commond.
+```sh
 sudo kubeadm init
-
+```
+```sh
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 To verify, if kubectl is working or not, run the following command.
 kubectl get pods -A
-
+```
 #deploy the network plugin - weave network
 ```sh
 kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
@@ -102,22 +107,22 @@ K8s resources used to deploy application:
 
 1. Pods or ControllerManager:
   Containers run in pods
-  controler managers include: replica set/Daemonset/statefulset/Deployment/Colume/Job
+  controller managers include: replica set/Daemonset/statefulset/Deployment/Colume/Job
 2. applications in K8s can be accessed using Service Discovery
      Service types include
      ClusterIP
      NodePort
      LoadBalancer
-All service types perfoem LB. Service does DNS resolution (call the service and it will route traffic to the pods)
+All service types perform LB. Service does DNS resolution (call the service and it will route traffic to the pods)
 
 
 Where Deployment Takes Place in K8s:
 
 Deployment takes place in a NameSpace. It is a virtual cluster in a Cluster. 
-It is used to isolate different environment (prod, dev, test), sales/accnt/payroll
+It is used to isolate different environments (prod, dev, test), sales/account/payroll
 It is also used for permissions(dev, engineers)/ resource utilizTION 9Gi/ Performance (priority)
 
-Kubernetes uses kubectl client or UI to run workload
+Kubernetes uses Kubectl client or UI to run workload
 
 kubectl get ns /  -n: to specify
 NAME              STATUS   AGE
@@ -135,25 +140,25 @@ Kind: Namespace
 metadata:
   name: prod
 
-kubectl api-resources | grep namespace :  to get api version
+kubectl API-resources | grep namespace:  to get API version
 
 PODS:
 =====
 
 pod is the smallest building block in which app are deployed in k8s.
-pods can be deployed in a NameSpace pod can contain 2 or more containers called a multi pod Containers (logmnt or utility) or single pod container 
+pods can be deployed in a NameSpace pod can contain 2 or more containers called multi pod Containers (logmnt or utility) or single pod container 
 All containers in a pod share the same network, and storage. Pods have unique IP Addresses in a cluster 
 containers in the same pod share the same network, filesystem, and storage and can communicate using 
 localhost:<containerport>
 
 How to deploy Applications in Pods:
 ==================================
-
+```sh
 kubectl run <podName> --image=<ImageName> --port=<containerport> -n <NameSpace>
 
 kubectl run hello --image=mylandmarktech/hello --port=80 -n dev
 Images are pulled from DockerHub or other registries like Nexus
-
+```
 For Best practice, app are deployed using manifest files.
 App is deployed in an isolated envnt called NameSpace using Manifest files 
 
@@ -164,6 +169,7 @@ name
 dictionary:
 pod.yml
 ==========
+```sh
 kind: Pod 
 apiVersion: v1 
 metadata:
@@ -178,14 +184,17 @@ spec:
     image: mylandmarktech/hello
     ports:
     -containerPort: 80
-
+```
+# Run the command to apply
+```sh
 kubectl apply -f pod.yml 
 kubectl get pod -n dev 
-
+```
 current context is default NameSpace
 to change, run 
+```sh
 kubectl config set-context --current --namespace=<DesiredNameSpace>
-
+```
 Application Discovery:
 =====================
 
@@ -276,7 +285,7 @@ spec:
 if components of the static pods are deleted, it will be recreated by the kubelet service
 
 
-For end users to access application, NodePort Service is required.
+For end users to access the application, NodePort Service is required.
 
           SVCIP          port     app
 curl -v 18.118.206.156:31771/java-web-app
