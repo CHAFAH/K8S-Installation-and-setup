@@ -137,11 +137,10 @@ All service types perform LB. Service does DNS resolution (call the service and 
 
 # Where Deployment Takes Place in K8s:
 
-Deployment takes place in a NameSpace. It is a virtual cluster in a Cluster. 
-It is used to isolate different environments (prod, dev, test), sales/account/payroll
-It is also used for permissions(dev, engineers)/ resource utilization 9Gi/ Performance (priority)
-
-Kubernetes uses Kubectl client or UI to run a workload
++ Deployment takes place in a NameSpace. It is a virtual cluster in a Cluster. 
++ It is used to isolate different environments (prod, dev, test), sales/account/payroll
++ It is also used for permissions(dev, engineers)/ resource utilization 9Gi/ Performance (priority)
++ Kubernetes uses Kubectl client or UI to run a workload
 
 kubectl get ns /  -n: to specify
 NAME              STATUS   AGE
@@ -164,10 +163,10 @@ kubectl API-resources | grep namespace:  to get API version
 PODS:
 =====
 
-pod is the smallest building block in which app are deployed in k8s.
-pods can be deployed in a NameSpace pod can contain 2 or more containers called multi pod Containers (logmnt or utility) or single pod container 
-All containers in a pod share the same network, and storage. Pods have unique IP Addresses in a cluster 
-containers in the same pod share the same network, filesystem, and storage and can communicate using 
++ pod is the smallest building block in which app are deployed in k8s.
++ pods can be deployed in a NameSpace pod can contain 2 or more containers called multi pod Containers (logmnt or utility) or single pod container 
++ All containers in a pod share the same network, and storage. Pods have unique IP Addresses in a cluster 
++ containers in the same pod share the same network, filesystem, and storage and can communicate using 
 localhost:<containerport>
 
 How to deploy Applications in Pods:
@@ -178,9 +177,9 @@ kubectl run <podName> --image=<ImageName> --port=<containerport> -n <NameSpace>
 
 kubectl run hello --image=mylandmarktech/hello --port=80 -n dev
 ```
-Images are pulled from DockerHub or other registries like Nexus
-For Best practice, app are deployed using manifest files.
-App is deployed in an isolated envnt called NameSpace using Manifest files 
++ Images are pulled from DockerHub or other registries like Nexus
++ For Best practice, app are deployed using manifest files.
++ App is deployed in an isolated envnt called NameSpace using Manifest files 
 
 
 pod.yml
@@ -234,11 +233,11 @@ spec:
 ```
 ClusterIP service is the default service type. It is communication between app in the cluster.
 
-name is the service name
-namespace is the app/pod namespace
-selector must be equal to labels(appName)
-port is the service pods
-target port is the container port 
++ name is the service name
++ namespace is the app/pod namespace
++ selector must be equal to labels(appName)
++ port is the service pods
++ target port is the container port 
 
 
 kubectl get svc:
@@ -268,21 +267,24 @@ curl 10.44.0.1:8080
 curl -v 10.44.0.1:8080/java-web-app
 
 
-service makes pods accesible and discoverable from within and outside the Cluster
-service identify pods using labels and selector
-when a service is created, a ClusterIP is allocated and DNS entries is created for that IP
-service name does DNS resolution.
++ service makes pods accessible and discoverable from within and outside the Cluster
++ service identify pods using labels and selector
++ when a service is created, a ClusterIP is allocated and DNS entries are created for that IP
++ service name does DNS resolution.
 
 STATIC PODS IN K8S:
 ===================
 
-they are pods controlled by the kubelet service
-Kubernetes has self-healing capabilities
-PODS in k8s have a short lifespan. if a node goes does on which a pod is running, the pod will not be recreated:
-IF pods are created with controller managers, the pod lifecycle can be managed
++ they are pods controlled by the kubelet service
++ Kubernetes has self-healing capabilities
++ PODS in k8s have a short lifespan. if a node goes does on which a pod is running, the pod will not be recreated:
++ IF pods are created with controller managers, the pod lifecycle can be managed
+```sh
+sudo vi /etc/kubernetes/manifsest/file.yml
+```
++ create a managed pod for replication
++ the pod is controlled by the kubelet service 
 
-sudo vi /etc/kubernetes/manifsest/file.yml:  create a managed pod for replication
-the pod is controlled by the kubelet service
 ```sh
 kind: Pod 
 apiVersion: v1 
@@ -298,10 +300,8 @@ spec:
     ports:
     - containerPort: 8080
 ```
-if components of the static pods are deleted, it will be recreated by the kubelet service
-
-
-For end users to access the application, NodePort Service is required.
++ if components of the static pods are deleted, they will be recreated by the kubelet service
++ For end users to access the application, NodePort Service is required.
 
           SVCIP          port     app
 curl -v 18.118.206.156:31771/java-web-app
