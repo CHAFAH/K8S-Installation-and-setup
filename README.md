@@ -17,7 +17,7 @@ echo \
 
 # Install containerd
 
-sh ```
+```sh
 apt-get update -y
 apt-get install containerd.io -y
 ```
@@ -25,25 +25,25 @@ apt-get install containerd.io -y
 
 #Note: Containerd uses a configuration file located in /etc/containerd/config.toml for specifying daemon level options.
 #The default configuration can be generated via below command.
-
+```sh
 containerd config default > /etc/containerd/config.toml
-
+```
 # Run following command to update configure cgroup as systemd for contianerd.
 
 sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
 
 # Restart and enable containerd service
-
+```sh
 systemctl restart containerd
 systemctl enable containerd
-
+```
 #5) Installing kubeadm, kubelet and kubectl
 
 # Update the apt package index and install packages needed to use the Kubernetes apt repository:
-
+```sh
 apt-get update
 apt-get install -y apt-transport-https ca-certificates curl
-
+```
 # Download the Google Cloud public signing key:
 
 curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
