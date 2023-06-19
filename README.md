@@ -1,5 +1,24 @@
 # K8S-Installation-and-setup on Ubuntu
+#  **<span style="color:green">Sani Solutions.</span>**
+### **<span style="color:green">Contacts: +45 715 730 47</span>**
+### **Email: forchu.cha@gmail.com**
 
+
+## Kubernetes Setup Using Kubeadm In AWS EC2 Ubuntu Servers.
+##### Prerequisite
++ AWS Acccount.
++ Create 3 - Ubuntu Servers -- 18.04.
++ 1 Master (4GB RAM , 2 Core)  t2.medium
++ 2 Workers  (1 GB, 1 Core)     t2.micro
++ Create Security Group and open required ports for kubernetes.
+   + Open all port for this illustration
++ Attach Security Group to EC2 Instance/nodes.
+
+## Assign hostname &  login as ‘root’ user because the following set of commands need to be executed with ‘sudo’ permissions.
+```sh
+sudo hostnamectl set-hostname master
+sudo -i
+```
 ```sh
 apt-get update -y
 apt-get install ca-certificates curl gnupg lsb-release -y
