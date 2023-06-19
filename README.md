@@ -116,7 +116,7 @@ K8s resources used to deploy application:
 All service types perform LB. Service does DNS resolution (call the service and it will route traffic to the pods)
 
 
-Where Deployment Takes Place in K8s:
+# Where Deployment Takes Place in K8s:
 
 Deployment takes place in a NameSpace. It is a virtual cluster in a Cluster. 
 It is used to isolate different environments (prod, dev, test), sales/account/payroll
@@ -153,20 +153,17 @@ localhost:<containerport>
 
 How to deploy Applications in Pods:
 ==================================
+
 ```sh
 kubectl run <podName> --image=<ImageName> --port=<containerport> -n <NameSpace>
 
 kubectl run hello --image=mylandmarktech/hello --port=80 -n dev
-Images are pulled from DockerHub or other registries like Nexus
 ```
+Images are pulled from DockerHub or other registries like Nexus
 For Best practice, app are deployed using manifest files.
 App is deployed in an isolated envnt called NameSpace using Manifest files 
 
-pod.yml
----------
-key : value
-name
-dictionary:
+
 pod.yml
 ==========
 ```sh
