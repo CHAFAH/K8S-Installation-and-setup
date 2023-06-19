@@ -168,16 +168,16 @@ kubeadm join 172.31.10.12:6443 --token cdm6fo.dhbrxyleqe5suy6e \
 
 control-plane:
   ====
-  +ApiServer: 
++ ApiServer: 
   (Primanry mgnt component/ exposes k8s API serving as frintend interface for all cluster operations
   handles restful Api from kubectl)
- + etcd:
++ etcd:
  It stores the cluster's configuration data,
 +  scheduler:
   Responsible for making decisions about pod placement on worker nodes in the cluster.
 It examines resource requirements, quality-of-service constraints, 
 affinity, anti-affinity, and other policies to determine the most suitable node for running a pod.
-  + ControllerManagers :
++ ControllerManagers :
  Manages Node lifecycle, desired pod number, and services  
 
 worker nodes:
@@ -200,7 +200,7 @@ Kubernetes-client:
 
 
 
-K8s resources used to deploy application:
+K8s resources used to deploy an application:
 ========================================
 
 1. Pods or ControllerManager:
@@ -211,7 +211,7 @@ K8s resources used to deploy application:
      ClusterIP
      NodePort
      LoadBalancer
-All service types perform LB. Service does DNS resolution (call the service and it will route traffic to the pods)
+All service types perform LB. The service does DNS resolution (call the service and it will route traffic to the pods)
 
 
 # Where Deployment Takes Place in K8s:
