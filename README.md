@@ -1,10 +1,10 @@
-# K8S-Installation-and-setup
+# K8S-Installation-and-setup on Ubuntu
 
 ```sh
 apt-get update -y
 apt-get install ca-certificates curl gnupg lsb-release -y
 ```
-#Note: We are not installing Docker Here.Since containerd.io package is part of docker apt repositories hence we added docker repository & it's key to download and install containerd.
+#Note: We are not installing Docker Here. Since containerd.io package is part of docker apt repositories hence we added the docker repository & its key to download and install containerd.
 # Add Docker’s official GPG key:
 ```sh
 sudo mkdir -p /etc/apt/keyrings
@@ -53,7 +53,7 @@ curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cl
 ```sh
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 ```
-# Update apt package index, install kubelet, kubeadm and kubectl, and pin their version:
+# Update apt package index, install kubelet, kubeadm, and kubectl, and pin their version:
 ```sh
 apt-get update
 apt-get install -y kubelet kubeadm kubectl
@@ -69,12 +69,12 @@ systemctl start kubelet
 systemctl enable kubelet.service
 ```
 
-# exit as root user & execute the below commands as normal ubuntu user
+# Exit as root user & execute the below commands as normal Ubuntu user
 ```sh
 sudo su - ubuntu
 ```
 # Initialised the control plane.
-# Initialize Kubernates master by executing below commond.
+# Initialize Kubernetes master by executing the below command.
 ```sh
 sudo kubeadm init
 ```
@@ -120,9 +120,9 @@ All service types perform LB. Service does DNS resolution (call the service and 
 
 Deployment takes place in a NameSpace. It is a virtual cluster in a Cluster. 
 It is used to isolate different environments (prod, dev, test), sales/account/payroll
-It is also used for permissions(dev, engineers)/ resource utilizTION 9Gi/ Performance (priority)
+It is also used for permissions(dev, engineers)/ resource utilization 9Gi/ Performance (priority)
 
-Kubernetes uses Kubectl client or UI to run workload
+Kubernetes uses Kubectl client or UI to run a workload
 
 kubectl get ns /  -n: to specify
 NAME              STATUS   AGE
@@ -139,9 +139,9 @@ apiVersion: V1
 Kind: Namespace
 metadata:
   name: prod
-
+```sh
 kubectl API-resources | grep namespace:  to get API version
-
+```
 PODS:
 =====
 
@@ -187,7 +187,7 @@ spec:
 kubectl apply -f pod.yml 
 kubectl get pod -n dev 
 ```
-current context is default NameSpace
+the current context is default NameSpace
 to change, run 
 ```sh
 kubectl config set-context --current --namespace=<DesiredNameSpace>
@@ -258,11 +258,11 @@ STATIC PODS IN K8S:
 ===================
 
 they are pods controlled by the kubelet service
-Kubernetes has self healing capabilities
-PODS in k8s has a short lifespand. if a node goes does on which a pod is running, the pod will not be recreated:
-IF pods are crwated with controller managers, the pod lifecycle can be managed
+Kubernetes has self-healing capabilities
+PODS in k8s have a short lifespan. if a node goes does on which a pod is running, the pod will not be recreated:
+IF pods are created with controller managers, the pod lifecycle can be managed
 
-sudo vi /etc/kubernetes/manifsest/file.yml :  create a managed pod for replication
+sudo vi /etc/kubernetes/manifsest/file.yml:  create a managed pod for replication
 the pod is controlled by the kubelet service
 ```sh
 kind: Pod 
